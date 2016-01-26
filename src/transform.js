@@ -62,8 +62,12 @@ function slidingWindow (length, s) {
 
 // ---------- export
 
-const Transform = {
-	map, filter, dropRepeats, fold, merge, sampleOn, slidingWindow 
+module.exports = {
+	map, 
+	filter, 
+	dropRepeats, 
+	fold, 
+	merge, 
+	sampleOn, 
+	slidingWindow 
 }
-
-export default Transform

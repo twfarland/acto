@@ -1,13 +1,13 @@
 // ---------- interact
 
 // Stream A -> (A -> _) -> Stream A
-function listen (s, f) {
+export function listen (s, f) {
 	if (s.active) s.listeners.push(f)
 	return s
 }
 
 // Stream A -> A -> Stream A
-function send (s, v) {
+export function send (s, v) {
 	if (s.active) {
 		s.value = v
 		s.listeners.forEach(f => f(v))
@@ -15,10 +15,7 @@ function send (s, v) {
 	return s
 }
 
-// ---------- export
-
-const Interact = { 
-	listen, send
+module.exports = {
+	listen,
+	send
 }
-
-export default Interact

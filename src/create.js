@@ -44,11 +44,9 @@ function fromInterval (interval) {
 	return s
 }
 
-
-// ---------- export
-
-const Create = { 
-	create, fromPromise, fromDomEvent, fromInterval
+module.exports = {
+	create,
+	fromPromise,
+	fromDomEvent,
+	fromInterval
 }
-
-export default Create
