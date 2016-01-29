@@ -22,7 +22,7 @@ function filter (f, s) {
 }
 
 // Signal A -> Signal A
-function dropRepeats (s, eq) {
+function dropRepeats (s) {
 	const s2 = create()
 	listen(s, v => {
 		if (v !== s2.value) send(s2, v)
