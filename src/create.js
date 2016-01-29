@@ -2,7 +2,7 @@ import { send } from './interact'
 
 // ---------- create
 
-// _ -> Stream _
+// _ -> Signal A
 function create () {
 	return {
 		listeners: 	[],
@@ -12,7 +12,7 @@ function create () {
 	}
 }
 
-// Promise -> Stream _
+// Promise -> Signal A
 function fromPromise (promise) {
 	const s = create()
 	promise
@@ -28,14 +28,14 @@ function fromPromise (promise) {
 	return s	
 }
 
-// DomNode -> String -> Stream DomEvent
+// DomNode -> String -> Signal DomEvent
 function fromDomEvent (node, eventName) {
 	const s = create()
 	node.addEventListener(eventName, evt => send(s, evt))
 	return s
 }
 
-// Int -> Stream Int
+// Int -> Signal Int
 function fromInterval (interval) {
 	var count = 0
 	const s = create()
