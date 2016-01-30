@@ -1,11 +1,12 @@
-# sig
+# Witness
 A miniscule signals library by [Tim Farland](mailto:twfarland@gmail.com)
 
 
-Inspired by [Elm](http://elm-lang.org).
+Inspired by [Elm](http://elm-lang.org) and [Bacon.js](https://baconjs.github.io).
 Written without the use of `this`, `new`, or `prototype` - only simple objects and functions.
 Miniscule size - ~1kb minified/gzipped.
-Tests are Todo.
+For use only as an ES6 module.
+Test suite is Todo.
 
 
 ## Signal type
@@ -25,7 +26,15 @@ Capture events on a dom node.
 // DomNode -> String -> Signal DomEvent
 const clicks = fromDomEvent(document.body, "click", evt => console.log(evt.target))
 ```
-A signal that will emit one value or an error, then terminate.
+
+A signal that will emit one value, then terminate.
+
+```javascript
+// Promise A -> Signal A
+const wait = fromPromise(new Promise(resolve => setTimeout(() => resolve("Finished"), 1000)))
+```
+
+A signal that will emit one value or an error from a Promise, then terminate.
 
 ```javascript
 // Promise A -> Signal A

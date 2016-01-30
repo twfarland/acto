@@ -1,4 +1,4 @@
-import { send } from './interact'
+import { send, stop } from './interact'
 
 // ---------- create
 
@@ -12,18 +12,28 @@ function create () {
 	}
 }
 
+// (A -> _) -> Signal A
+function fromCallback (f) {
+	const s = create()
+	f(v => {
+		send(s, v)
+		stop(s)
+	})
+	return s
+}
+
 // Promise -> Signal A
 function fromPromise (promise) {
 	const s = create()
 	promise
 		.then(v => {
 			send(s, v)
-			s.active = false
+			stop(s)
 		})
 		.catch(error => {
 			s.error = error
 			send(s, error)
-			s.active = false
+			stop(s)
 		})
 	return s	
 }
@@ -48,6 +58,7 @@ function fromInterval (interval) {
 
 module.exports = {
 	create,
+	fromCallback,
 	fromPromise,
 	fromDomEvent,
 	fromInterval
