@@ -1,21 +1,15 @@
 {
-  "name": "cognitive",
-  "version": "0.0.2",
+  "name": "ecto-signals",
+  "version": "0.0.1",
   "description": "A signals library for reactive programming",
-  "homepage": "http://github.com/twfarland/cognitive",
+  "homepage": "http://github.com/twfarland/ecto-signals",
   "main": "src/main.js",
-  "repository": "https://github.com/twfarland/cognitive",
+  "repository": "https://github.com/twfarland/ecto-signals",
   "author": "Tim Farland <twfarland@gmail.com>",
-  "devDependencies": {
-    "babel-core": "^6.4.5",
-    "babel-loader": "^6.2.1",
-    "babel-preset-es2015": "^6.3.13",
-    "webpack": "^1.12.11"
-  },
   "dependencies": {
     "promise": "^7.1.1"
   },
   "scripts": {
-    "test": "webpack -d; node ./test/es5.js"
+    "test": "node ./test/test.js"
   }
 }

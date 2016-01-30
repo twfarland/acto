@@ -1,4 +1,4 @@
-import { send, stop } from './interact'
+var I = require('./interact')
 
 // ---------- create
 
@@ -14,37 +14,37 @@ function create () {
 
 // (A -> _) -> Signal A
 function fromCallback (f) {
-	const s = create()
-	f(v => {
-		send(s, v)
-		stop(s)
+	var s = create()
+	f(function (v) {
+		I.send(s, v)
+		I.stop(s)
 	})
 	return s
 }
 
 // Promise -> Signal A
 function fromPromise (promise) {
-	const s = create()
+	var s = create()
 	promise
-		.then(v => {
-			send(s, v)
-			stop(s)
+		.then(function (v) {
+			I.send(s, v)
+			I.stop(s)
 		})
-		.catch(error => {
+		.catch(function (error) {
 			s.error = error
-			send(s, error)
-			stop(s)
+			I.send(s, error)
+			I.stop(s)
 		})
 	return s	
 }
 
 // DomNode -> String -> Signal DomEvent
 function fromDomEvent (node, eventName) {
-	const s = create()
+	var s = create()
 	s.dom = {
-		node,
-		eventName, 
-		listener(evt) { send(s, evt) }
+		node: node,
+		eventName: eventName, 
+		listener: function (evt) { I.send(s, evt) }
 	}
 	if (node.addEventListener) {
 		node.addEventListener(eventName, s.dom.listener, false)
@@ -57,18 +57,18 @@ function fromDomEvent (node, eventName) {
 // Int -> Signal Int
 function fromInterval (interval) {
 	var count = 0
-	const s = create()
-	s.interval = setInterval(() => {
-		send(s, count)
+	var s = create()
+	s.interval = setInterval(function () {
+		I.send(s, count)
 		count++
 	}, interval)
 	return s
 }
 
 module.exports = {
-	create,
-	fromCallback,
-	fromPromise,
-	fromDomEvent,
-	fromInterval
+	create: create,
+	fromCallback: fromCallback,
+	fromPromise: fromPromise,
+	fromDomEvent: fromDomEvent,
+	fromInterval: fromInterval
 }

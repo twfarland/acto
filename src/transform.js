@@ -1,96 +1,115 @@
-import { create } from './create'
-import { send, listen, stop } from './interact'
+var C = require('./create')
+var I = require('./interact')
 
 // ---------- transform
 
 // (... _ -> B) -> ... Signal _ -> Signal B
-function map (f, ...ss) {
-	const s2 = create()
-	ss.forEach(s3 =>
-		listen(s3, () =>
-			send(s2, f.apply(null, ss.map(s => s.value)))))
+function map () {
+	var args = [].slice.call(arguments)
+	var f    = args[0]
+	var ss   = args.slice(1)
+	var s2   = C.create()
+	ss.forEach(function (s3) {
+		I.listen(s3, function () {
+			I.send(s2, f.apply(null, ss.map(function (s) { return s.value })))
+		})
+	})
 	return s2
 }
 
 // (A -> Bool) -> Signal A -> Signal A 
 function filter (f, s) {
-	const s2 = create()
-	listen(s, v => {
-		if (f(v)) send(s2, v)
+	var s2 = C.create()
+	I.listen(s, function (v) {
+		if (f(v)) I.send(s2, v)
 	})
 	return s2
 }
 
 // Signal A -> Signal A
 function dropRepeats (s) {
-	const s2 = create()
-	listen(s, v => {
-		if (v !== s2.value) send(s2, v)
+	var s2 = C.create()
+	I.listen(s, function (v) {
+		if (v !== s2.value) I.send(s2, v)
 	})
 	return s2
 }
 
 // (A -> B -> B) -> B -> Signal A -> Signal B
 function fold (f, seed, s) {
-	const s2 = create()
-	listen(s, v => send(s2, seed = f(v, seed)))
+	var s2 = C.create()
+	I.listen(s, function (v) {
+		I.send(s2, seed = f(v, seed))
+	})
 	return s2
 }
 
 // [Signal _] -> Signal _
-function merge (...ss) {
-	const s2 = create()
-	ss.forEach(s => listen(s, v => send(s2, v)))
+function merge () {
+	var ss = [].slice.call(arguments)
+	var s2 = C.create()
+	ss.forEach(function (s) {
+		I.listen(s, function (v) {
+			I.send(s2, v)
+		})
+	})
 	return s2
 }
 
 // Signal A -> Signal B -> Signal A
 function sampleOn (s, s2) {
-	const s3 = create()
-	listen(s2, () => send(s3, s.value))
+	var s3 = C.create()
+	I.listen(s2, function () {
+		I.send(s3, s.value)
+	})
 	return s3
 }
 
 // Int -> Signal A -> Signal [A]
 function slidingWindow (length, s) {
-	const s2 = create()
-	const frame = []
-	listen(s, v => {
+	var s2 = C.create()
+	var frame = []
+	I.listen(s, function (v) {
 		if (frame.length > length - 1) frame.shift()
 		frame.push(v)
-		send(s2, frame.slice())
+		I.send(s2, frame.slice())
 	})
 	return s2
 }
 
 // (A -> Signal B) -> Signal A -> Signal B
 function flatMap (lift, s) {
-	const s2 = create()
-	listen(s, v1 => 
-		listen(lift(v1), v2 => send(s2, v2)))
+	var s2 = C.create()
+	I.listen(s, function (v1) { 
+		I.listen(lift(v1), function (v2) {
+			I.send(s2, v2)
+		})
+	})
 	return s2
 }
 
 // (A -> Signal B) -> Signal A -> Signal B
 function flatMapLatest (lift, s) {
-	const s2 = create()
+	var s2 = C.create()
 	var s3
-	listen(s, v1 => {
-		if (s3) stop(s3)
+	I.listen(s, function (v1) {
+		if (s3) I.stop(s3)
 		s3 = lift(v1)
-		listen(s3, v2 => send(s2, v2))
+		I.listen(s3, function (v2) {
+			I.send(s2, v2)
+		})
 	})
 	return s2
 }
 
 module.exports = {
-	map, 
-	filter, 
-	dropRepeats, 
-	fold, 
-	merge, 
-	sampleOn, 
-	slidingWindow,
-	flatMap,
-	flatMapLatest
+	map: map, 
+	filter: filter, 
+	dropRepeats: dropRepeats, 
+	fold: fold, 
+	merge: merge, 
+	sampleOn: sampleOn, 
+	slidingWindow: slidingWindow,
+	flatMap: flatMap,
+	flatMapLatest: flatMapLatest
 }

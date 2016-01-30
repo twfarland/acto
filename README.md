@@ -1,19 +1,16 @@
-# cognitive
+# ecto-signals
 A signals library for functional reactive programming.
-Author: [Tim Farland](mailto:twfarland@gmail.com)
+Author: [Tim Farland](https://github.com/twfarland)
 
 Inspired by [Elm](http://elm-lang.org) and [Bacon.js](https://baconjs.github.io).
 Written without the use of `this`, `new`, or `prototype` - only simple objects and functions.
 Miniscule size - ~1kb minified/gzipped.
-For use as an ES6 module.
 
 ## Install
 
-	npm install --save cognitive
+	npm install --save ecto-signals
 
 ## Test
-
-Requires global webpack installation.
 
 	npm test
 

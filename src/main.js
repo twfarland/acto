@@ -1,9 +1,13 @@
-import { create, fromCallback, fromPromise, fromDomEvent, fromInterval } from './create'
-import { listen, send, stop } from './interact'
-import { map, filter, dropRepeats, fold, merge, sampleOn, slidingWindow, flatMap, flatMapLatest } from './transform'
+var C = require('./create');
+var I = require('./interact');
+var T = require('./transform');
 
-module.exports = { 
-	create, fromCallback, fromPromise, fromDomEvent, fromInterval, 
-	listen, send, stop, 
-	map, filter, dropRepeats, fold, merge, sampleOn, slidingWindow, flatMap, flatMapLatest 
-}
+var Ecto = {};
+
+[C,I,T].forEach(function (obj) {
+	for (var p in obj) {
+		if (obj.hasOwnProperty(p)) Ecto[p] = obj[p];
+	}
+})
+
+module.exports = Ecto;
