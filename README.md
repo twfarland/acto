@@ -9,7 +9,7 @@ For use as an ES6 module.
 
 ## Install
 
-	npm install --save tote
+	npm install --save cognitive
 
 ## Test
 
