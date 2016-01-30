@@ -30,8 +30,8 @@ const clicks = fromDomEvent(document.body, "click", evt => console.log(evt.targe
 A signal that will emit one value, then terminate.
 
 ```javascript
-// Promise A -> Signal A
-const wait = fromPromise(new Promise(resolve => setTimeout(() => resolve("Finished"), 1000)))
+// (A -> _) -> Signal A
+const later = fromCallback(callback => setTimeout(() => callback("Finished"), 1000))
 ```
 
 A signal that will emit one value or an error from a Promise, then terminate.
