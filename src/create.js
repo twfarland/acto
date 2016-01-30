@@ -41,7 +41,16 @@ function fromPromise (promise) {
 // DomNode -> String -> Signal DomEvent
 function fromDomEvent (node, eventName) {
 	const s = create()
-	node.addEventListener(eventName, evt => send(s, evt))
+	s.dom = {
+		node,
+		eventName, 
+		listener(evt) { send(s, evt) }
+	}
+	if (node.addEventListener) {
+		node.addEventListener(eventName, s.dom.listener, false)
+	} else {
+		node.attachEvent(eventName, s.dom.listener)
+	}
 	return s
 }
 
@@ -49,7 +58,7 @@ function fromDomEvent (node, eventName) {
 function fromInterval (interval) {
 	var count = 0
 	const s = create()
-	const i = setInterval(() => {
+	s.interval = setInterval(() => {
 		send(s, count)
 		count++
 	}, interval)

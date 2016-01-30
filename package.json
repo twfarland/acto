@@ -13,9 +13,10 @@
     "webpack": "^1.12.11"
   },
   "dependencies": {
-    "babel-preset-es2015": "^6.3.13"
+    "babel-preset-es2015": "^6.3.13",
+    "promise": "^7.1.1"
   },
   "scripts": {
-  	"test": "webpack -d; node ./test/es5.js"
+    "test": "webpack -d; node ./test/es5.js"
   }
 }

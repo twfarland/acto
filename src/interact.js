@@ -17,9 +17,24 @@ export function send (s, v) {
 
 // Signal A -> Signal A
 export function stop (s) {
+
 	s.listeners = []
 	s.active = false
 	s.value = null
+
+	if (s.interval) {
+		clearInterval(s.interval),
+		delete s.interval
+	}
+
+	if (s.dom) {
+		if (s.dom.node.removeEventListener) {
+			s.dom.node.removeEventListener(s.dom.eventName, s.dom.listener, false)
+		} else {
+			s.dom.node.detachEvent(s.dom.eventName, s.dom.listener)
+		}
+	}
+
 	return s
 }
 
