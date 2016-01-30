@@ -1,4 +1,4 @@
-# tote
+# cognitive
 A signals library for functional reactive programming.
 Author: [Tim Farland](mailto:twfarland@gmail.com)
 

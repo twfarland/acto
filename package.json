@@ -1,10 +1,10 @@
 {
-  "name": "tote",
+  "name": "cognitive",
   "version": "0.0.1",
   "description": "A signals library for reactive programming",
-  "homepage": "http://github.com/twfarland/tote",
+  "homepage": "http://github.com/twfarland/cognitive",
   "main": "src/main.js",
-  "repository": "https://github.com/twfarland/tote",
+  "repository": "https://github.com/twfarland/cognitive",
   "author": "Tim Farland <twfarland@gmail.com>",
   "devDependencies": {
     "babel-core": "^6.4.5",
