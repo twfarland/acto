@@ -1,10 +1,10 @@
 {
-  "name": "witness",
+  "name": "tote",
   "version": "0.0.1",
-  "description": "Miniscule signals library for reactive programming",
-  "homepage": "http://github.com/twfarland/witness",
+  "description": "A signals library for reactive programming",
+  "homepage": "http://github.com/twfarland/tote",
   "main": "src/main.js",
-  "repository": "https://github.com/twfarland/witness",
+  "repository": "https://github.com/twfarland/tote",
   "author": "Tim Farland <twfarland@gmail.com>",
   "devDependencies": {
     "babel-core": "^6.4.5",

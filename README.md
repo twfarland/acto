@@ -1,14 +1,25 @@
-# Witness
-A miniscule signals library by [Tim Farland](mailto:twfarland@gmail.com)
-
+# tote
+A signals library for functional reactive programming.
+Author: [Tim Farland](mailto:twfarland@gmail.com)
 
 Inspired by [Elm](http://elm-lang.org) and [Bacon.js](https://baconjs.github.io).
 Written without the use of `this`, `new`, or `prototype` - only simple objects and functions.
 Miniscule size - ~1kb minified/gzipped.
 For use as an ES6 module.
 
+## Install
 
-## Signal type
+	npm install --save tote
+
+## Test
+
+Requires global webpack installation.
+
+	npm test
+
+## Api
+
+### Signal type
 
 	Signal A :: {
 		listeners: [(A -> _)],
@@ -17,7 +28,7 @@ For use as an ES6 module.
 		error: error || null
 	}
 
-## Creating signals
+### Creating signals
 
 Capture events on a dom node.
 
@@ -51,7 +62,7 @@ Low-level signal creation.
 // Signal A
 const rawSignal = create()
 ```
-## Interacting with signals
+### Interacting with signals
 
 Subscribe to values emitted by the signal.
 
@@ -71,7 +82,7 @@ Stop a signal - no more values will be emitted.
 // Signal A -> Signal A
 stop(rawSignal)
 ```
-## Transforming signals
+### Transforming signals
 
 Map values of a signal
 
