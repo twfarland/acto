@@ -5,8 +5,7 @@ A miniscule signals library by [Tim Farland](mailto:twfarland@gmail.com)
 Inspired by [Elm](http://elm-lang.org) and [Bacon.js](https://baconjs.github.io).
 Written without the use of `this`, `new`, or `prototype` - only simple objects and functions.
 Miniscule size - ~1kb minified/gzipped.
-For use only as an ES6 module.
-Test suite is Todo.
+For use as an ES6 module.
 
 
 ## Signal type

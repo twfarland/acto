@@ -58,7 +58,7 @@ function slidingWindow (length, s) {
 	listen(s, v => {
 		if (frame.length > length - 1) frame.shift()
 		frame.push(v)
-		send(s2, frame)
+		send(s2, frame.slice())
 	})
 	return s2
 }
