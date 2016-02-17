@@ -105,7 +105,7 @@ function flatMapLatest (lift, s) {
 // Signal A -> Int -> Signal A
 function debounce (s, quiet) {
 	return flatMapLatest(function (v) {
-		C.fromCallback(function (cback) {
+		return C.fromCallback(function (cback) {
 			setTimeout(function () {
 				cback(v)
 			}, quiet)
