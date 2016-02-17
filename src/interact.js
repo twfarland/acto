@@ -11,6 +11,7 @@ function send (s, v) {
 	if (s.active) {
 		s.value = v
 		s.listeners.forEach(function (f) { f(v) })
+		if (v instanceof Error) stop(s)
 	}
 	return s
 }
@@ -20,7 +21,6 @@ function stop (s) {
 
 	s.listeners = []
 	s.active = false
-	s.value = null
 
 	if (s.interval) {
 		clearInterval(s.interval)

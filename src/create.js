@@ -7,7 +7,6 @@ function create () {
 	return {
 		listeners: 	[],
 		active: 	true,
-		error: 		null,
 		value:      null
 	}
 }
@@ -31,9 +30,7 @@ function fromPromise (promise) {
 			I.stop(s)
 		})
 		.catch(function (error) {
-			s.error = error
-			I.send(s, error)
-			I.stop(s)
+			I.send(s, error instanceof Error ? error : new Error(error))
 		})
 	return s	
 }

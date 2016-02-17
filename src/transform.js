@@ -102,6 +102,17 @@ function flatMapLatest (lift, s) {
 	return s2
 }
 
+// Signal A -> Int -> Signal A
+function debounce (s, quiet) {
+	return flatMapLatest(function (v) {
+		C.fromCallback(function (cback) {
+			setTimeout(function () {
+				cback(v)
+			}, quiet)
+		})
+	}, s)
+}
+
 module.exports = {
 	map: map, 
 	filter: filter, 
@@ -111,5 +122,6 @@ module.exports = {
 	sampleOn: sampleOn, 
 	slidingWindow: slidingWindow,
 	flatMap: flatMap,
-	flatMapLatest: flatMapLatest
+	flatMapLatest: flatMapLatest,
+	debounce: debounce
 }

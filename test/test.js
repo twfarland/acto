@@ -152,3 +152,35 @@ S.send(top, 1)
 S.send(top, 2)
 S.send(top, 3)
 
+// Todo: test debounce
+
+// Error handling
+
+var errSeen = 0
+var signal = S.create()
+var signal2 = S.map(function (v) { 
+	return v 
+}, signal)
+S.listen(signal2, function (v) { 
+	if (errSeen === 0) assert.ok(v === 1)
+	if (errSeen > 0) assert.ok(v instanceof Error)
+	errSeen++	
+})
+
+S.send(signal, 1)
+S.send(signal, new Error("Disaster has struck")) 
+S.send(signal, 1)
+
+
+var errSeen2 = 0
+var source = S.create()
+var mapped = S.map(function (v) {
+	return v > 1 ? new Error("I can't handle this. My life is falling apart") : v
+}, source)
+S.listen(mapped, function (v) {
+	if (errSeen2 === 0) assert.ok(v === 1)
+	if (errSeen2 > 0) assert.ok(v instanceof Error)	
+	errSeen2++	
+})
+S.send(source, 1) // 1
+S.send(source, 2) // [Error: I can't handle this. My life is falling apart]

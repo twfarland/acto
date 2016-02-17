@@ -2,10 +2,11 @@
 A signals library for functional reactive programming.
 Author: [Tim Farland](https://github.com/twfarland)
 
-Inspired by [Elm](http://elm-lang.org) and [Bacon.js](https://baconjs.github.io).
-Written without the use of `this`, `new`, or `prototype` - only simple objects and functions.
-Miniscule size - ~1kb minified/gzipped.
-License: MIT
+- Inspired by [Elm](http://elm-lang.org) and [Bacon.js](https://baconjs.github.io).
+- Written without the use of `this`, `new`, or `prototype` - only simple objects and functions.
+- Miniscule size - ~1kb minified/gzipped.
+- For modular use in node or browsers.
+- License: MIT.
 
 ## Install
 
@@ -22,8 +23,7 @@ License: MIT
 	Signal A :: {
 		listeners: [(A -> _)],
 		active: boolean,
-		value: A || null,
-		error: error || null
+		value: A || null
 	}
 
 ### Creating signals
@@ -143,4 +143,36 @@ The same as above, but only emits values from the latest child signal.
 // (A -> Signal B) -> Signal A -> Signal B
 flatMapLatest(v => fromPromise(promiseCreator(v)), valueSignal)
 ```
+
+Debounce a signal.
+
+```javascript
+// Signal A -> Int -> Signal A
+const debouncedClicks = debounce(mouseClicks, 1000)
+```
+
+### Error handling
+
+To put a signal in an error state, send a native `Error` object to it, which will set it's value to the error, and stop it, e.g: 
+
+```javascript
+const signal = create()
+listen(signal, v => console.log(v))
+send(signal, 1) // 1
+send(signal, new Error("Disaster has struck")) // [Error: Disaster has struck]
+send(signal, 1) // (does nothing, as the signal has stopped)
+```
+
+So your listeners need to be handle the case that the the type of any signal value may also be an `Error`.
+
+As errors are just values, they're propagated downstream by the same mechanism:
+
+```javascript
+const source = create()
+const mapped = map(v => v > 1 ? new Error("I can't handle this. My life is falling apart") : v, source)
+listen(mapped, v => console.log(v))
+send(source, 1) // 1
+send(source, 2) // [Error: I can't handle this. My life is falling apart]
+```
+
 
