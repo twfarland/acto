@@ -153,7 +153,7 @@ const debouncedClicks = debounce(mouseClicks, 1000)
 
 ### Error handling
 
-To put a signal in an error state, send a native `Error` object to it, which will set it's value to the error, and stop it, e.g: 
+To put a signal in an error state, send a native `Error` object to it, which will set it's value to the error, e.g: 
 
 ```javascript
 const signal = create()
@@ -169,10 +169,10 @@ As errors are just values, they're propagated downstream by the same mechanism:
 
 ```javascript
 const source = create()
-const mapped = map(v => v > 1 ? new Error("I can't handle this. My life is falling apart") : v, source)
+const mapped = map(v => v > 1 ? new Error("I can't handle this") : v, source)
 listen(mapped, v => console.log(v))
 send(source, 1) // 1
-send(source, 2) // [Error: I can't handle this. My life is falling apart]
+send(source, 2) // [Error: I can't handle this]
 ```
 
 
