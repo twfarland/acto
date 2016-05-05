@@ -6,6 +6,12 @@ function listen (s, f) {
 	return s
 }
 
+// Signal A -> (A -> _) -> Signal A
+function unlisten (s, f) {
+	s.listeners = s.listeners.filter(function (listener) { return listener !== f })
+	return s
+}
+
 // Signal A -> A -> Signal A
 function send (s, v) {
 	if (s.active) {

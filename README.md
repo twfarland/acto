@@ -62,11 +62,13 @@ const rawSignal = create()
 ```
 ### Interacting with signals
 
-Subscribe to values emitted by the signal.
+Subscribe / unsubscribe to values emitted by the signal.
 
 ```javascript
 // Signal A -> (A -> _) -> Signal A
-listen(clicks, e => console.log(e))
+function logger (e) { console.log(e) }
+listen(clicks, logger)
+unlisten(clicks, logger)
 ```
 Send a value to a signal.
 
