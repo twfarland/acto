@@ -50,6 +50,14 @@ const wait = fromPromise(new Promise(resolve => setTimeout(() => resolve("Finish
 ```
 A signal that emits an integer count of millisecond intervals since it was started.
 
+
+```javascript
+// _ -> Signal Number
+const frames = fromAnimationFrames()
+```
+A signal that fires on every window.requestAnimationFrame. Useful in combination with `sampleOn`.
+
+
 ```javascript
 // Int -> Signal Int
 const seconds = fromInterval(1000)

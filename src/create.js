@@ -62,10 +62,23 @@ function fromInterval (interval) {
 	return s
 }
 
+// _ -> Signal Int
+function fromAnimationFrames () {
+    const s = create()
+    function step (time) {
+        I.send(s, time)
+        window.requestAnimationFrame(step)
+    }
+    window.requestAnimationFrame(step)
+    return s
+}
+
+
 module.exports = {
 	create: create,
 	fromCallback: fromCallback,
 	fromPromise: fromPromise,
 	fromDomEvent: fromDomEvent,
-	fromInterval: fromInterval
+	fromInterval: fromInterval,
+	fromAnimationFrames: fromAnimationFrames
 }
