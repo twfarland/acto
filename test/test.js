@@ -1,4 +1,4 @@
-var S = require("../src/main") 
+var S = require("../src/ecto") 
 
 var assert = require('assert')
 var Promise = require('promise')
@@ -169,7 +169,6 @@ S.listen(signal2, function (v) {
 
 S.send(signal, 1)
 S.send(signal, new Error("Disaster has struck")) 
-S.send(signal, 1)
 
 
 var errSeen2 = 0

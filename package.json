@@ -1,12 +1,13 @@
 {
   "name": "ecto-signals",
   "version": "0.0.1",
-  "description": "A signals library for reactive programming",
+  "description": "A signals library for functional reactive programming",
   "homepage": "http://github.com/twfarland/ecto-signals",
-  "main": "src/main.js",
+  "main": "src/ecto.js",
   "repository": "https://github.com/twfarland/ecto-signals",
   "author": "Tim Farland <twfarland@gmail.com>",
-  "dependencies": {
+  "license": "MIT",
+  "devDependencies": {
     "promise": "^7.1.1"
   },
   "scripts": {

@@ -4,7 +4,7 @@ Author: [Tim Farland](https://github.com/twfarland)
 
 - Inspired by [Elm](http://elm-lang.org) and [Bacon.js](https://baconjs.github.io).
 - Written without the use of `this`, `new`, or `prototype` - only simple objects and functions.
-- Miniscule size - ~1kb minified/gzipped.
+- Miniscule size - ~2kb minified/gzipped.
 - For modular use in node or browsers.
 - License: MIT.
 
@@ -15,6 +15,16 @@ Author: [Tim Farland](https://github.com/twfarland)
 ## Test
 
 	npm test
+
+## Importing
+
+	import ecto from 'ecto-signals'	// es6
+
+	var ecto = require('ecto-signals') // 
+
+	define(['ectoSignals'] , function (ecto) { }) // amd
+
+	window.ectoSignals // no module system, just including a script tag
 
 ## Api
 
