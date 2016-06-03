@@ -1,0 +1,95 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'publish' ]
+2 info using npm@3.3.12
+3 info using node@v5.2.0
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: '/Users/timfarland/dev/ecto-signals',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory /Users/timfarland/.npm/ecto-signals/0.0.1/package.tgz not in flight; packing
+9 info lifecycle ecto-signals@0.0.1~prepublish: ecto-signals@0.0.1
+10 silly lifecycle ecto-signals@0.0.1~prepublish: no script for prepublish, continuing
+11 verbose tar pack [ '/Users/timfarland/.npm/ecto-signals/0.0.1/package.tgz',
+11 verbose tar pack   '/Users/timfarland/dev/ecto-signals' ]
+12 verbose tarball /Users/timfarland/.npm/ecto-signals/0.0.1/package.tgz
+13 verbose folder /Users/timfarland/dev/ecto-signals
+14 verbose addLocalTarball adding from inside cache /Users/timfarland/.npm/ecto-signals/0.0.1/package.tgz
+15 silly cache afterAdd ecto-signals@0.0.1
+16 verbose afterAdd /Users/timfarland/.npm/ecto-signals/0.0.1/package/package.json not in flight; writing
+17 verbose afterAdd /Users/timfarland/.npm/ecto-signals/0.0.1/package/package.json written
+18 silly publish { name: 'ecto-signals',
+18 silly publish   version: '0.0.1',
+18 silly publish   description: 'A signals library for functional reactive programming',
+18 silly publish   homepage: 'http://github.com/twfarland/ecto-signals',
+18 silly publish   main: 'src/ecto.js',
+18 silly publish   repository:
+18 silly publish    { type: 'git',
+18 silly publish      url: 'git+https://github.com/twfarland/ecto-signals.git' },
+18 silly publish   author: { name: 'Tim Farland', email: 'twfarland@gmail.com' },
+18 silly publish   license: 'MIT',
+18 silly publish   devDependencies: { promise: '^7.1.1' },
+18 silly publish   scripts: { test: 'node ./test/test.js' },
+18 silly publish   readme: '# ecto-signals\nA signals library for functional reactive programming.\nAuthor: [Tim Farland](https://github.com/twfarland)\n\n- Inspired by [Elm](http://elm-lang.org) and [Bacon.js](https://baconjs.github.io).\n- Written without the use of `this`, `new`, or `prototype` - only simple objects and functions.\n- Miniscule size - ~2kb minified/gzipped.\n- For modular use in node or browsers.\n- License: MIT.\n\n## Install\n\n\tnpm install --save ecto-signals\n\n## Test\n\n\tnpm test\n\n## Importing\n\n\timport ecto from \'ecto-signals\'\t// es6\n\n\tvar ecto = require(\'ecto-signals\') // \n\n\tdefine([\'ectoSignals\'] , function (ecto) { }) // amd\n\n\twindow.ectoSignals // no module system, just including a script tag\n\n## Api\n\n### Signal type\n\n\tSignal A :: {\n\t\tlisteners: [(A -> _)],\n\t\tactive: boolean,\n\t\tvalue: A || null\n\t}\n\n### Creating signals\n\nCapture events on a dom node.\n\n```javascript\n// DomNode -> String -> Signal DomEvent\nconst clicks = fromDomEvent(document.body, "click", evt => console.log(evt.target))\n```\n\nA signal that will emit one value, then terminate.\n\n```javascript\n// (A -> _) -> Signal A\nconst later = fromCallback(callback => setTimeout(() => callback("Finished"), 1000))\n```\n\nA signal that will emit one value or an error from a Promise, then terminate.\n\n```javascript\n// Promise A -> Signal A\nconst wait = fromPromise(new Promise(resolve => setTimeout(() => resolve("Finished"), 1000)))\n```\nA signal that emits an integer count of millisecond intervals since it was started.\n\n\n```javascript\n// _ -> Signal Number\nconst frames = fromAnimationFrames()\n```\nA signal that fires on every window.requestAnimationFrame. Useful in combination with `sampleOn`.\n\n\n```javascript\n// Int -> Signal Int\nconst seconds = fromInterval(1000)\n```\nLow-level signal creation.\n\n```javascript\n// Signal A\nconst rawSignal = create()\n```\n### Interacting with signals\n\nSubscribe / unsubscribe to values emitted by the signal.\n\n```javascript\n// Signal A -> (A -> _) -> Signal A\nfunction logger (e) { console.log(e) }\nlisten(clicks, logger)\nunlisten(clicks, logger)\n```\nSend a value to a signal.\n\n```javascript\n// Signal A -> A -> Signal A\nsend(rawSignal, "value")\n```\nStop a signal - no more values will be emitted.\n\n```javascript\n// Signal A -> Signal A\nstop(rawSignal)\n```\n### Transforming signals\n\nMap values of a signal\n\n```javascript\n// (... _ -> B) -> ... Signal _ -> Signal B\nconst values = map(evt => evt.target.value, fromDomEvent(input, "keydown"))\n```\n\nMap (zip) the latest value of multiple signals\n\n```javascript\n// (... _ -> B) -> ... Signal _ -> Signal B\nconst areas = map((x, y) => x * y, widthSignal, heightSignal)\n```\nFilter a signal, will only emit event that pass the test\n\n```javascript\n// (A -> Bool) -> Signal A -> Signal A \nconst evens = filter(n => n % 2 === 0, numberSignal)\n```\nOnly emit if the current value is different to the previous (as compared by `===`). Not a full deduplication.\n\n```javascript\n// Signal A -> Signal A\ndropRepeats(numbers)\n```\nFold a signal over an initial seed value.\n\n```javascript\n// (A -> B -> B) -> B -> Signal A -> Signal B\nconst sum = fold((a, b) => a + b, 0, numbersStream)\n```\nMerge many signals into one that emits values from all.\n\n```javascript\n// ... Signal _ -> Signal _\nconst events = merge(clicks, keypresses)\n```\nTake the last value of a stream when another stream emits.\n\n```javascript\n// Signal A -> Signal B -> Signal A\nconst mousePositionsBySeconds = sampleOn(mousePosition, fromInterval(1000))\n```\nEmit an array of the last n values of a signal.\n\n```javascript\n// Int -> Signal A -> Signal [A]\nconst trail = slidingWindow(5, mousePosition)\n```\nMap values of a signal to a new signal, then flatten the results of all emitted into one signal.\n\n```javascript\n// (A -> Signal B) -> Signal A -> Signal B\nconst responses = flatMap(evt => fromPromise(ajaxGet("/" + evt.target.value)), keyPresses)\n```\nThe same as above, but only emits values from the latest child signal.\n\n```javascript\n// (A -> Signal B) -> Signal A -> Signal B\nflatMapLatest(v => fromPromise(promiseCreator(v)), valueSignal)\n```\n\nDebounce a signal.\n\n```javascript\n// Signal A -> Int -> Signal A\nconst debouncedClicks = debounce(mouseClicks, 1000)\n```\n\n### Error handling\n\nTo put a signal in an error state, send a native `Error` object to it, which will set it\'s value to the error, e.g: \n\n```javascript\nconst signal = create()\nlisten(signal, v => console.log(v))\nsend(signal, 1) // 1\nsend(signal, new Error("Disaster has struck")) // [Error: Disaster has struck]\nsend(signal, 1) // (does nothing, as the signal has stopped)\n```\n\nSo your listeners need to be handle the case that the the type of any signal value may also be an `Error`.\n\nAs errors are just values, they\'re propagated downstream by the same mechanism:\n\n```javascript\nconst source = create()\nconst mapped = map(v => v > 1 ? new Error("I can\'t handle this") : v, source)\nlisten(mapped, v => console.log(v))\nsend(source, 1) // 1\nsend(source, 2) // [Error: I can\'t handle this]\n```\n\n\n',
+18 silly publish   readmeFilename: 'README.md',
+18 silly publish   gitHead: '0fc121bac92719319180def06135e110409b267f',
+18 silly publish   bugs: { url: 'https://github.com/twfarland/ecto-signals/issues' },
+18 silly publish   _id: 'ecto-signals@0.0.1',
+18 silly publish   _shasum: '6ae009022a862acb0518a8624892d544aaff6cba',
+18 silly publish   _from: '.' }
+19 verbose getPublishConfig undefined
+20 silly mapToRegistry name ecto-signals
+21 silly mapToRegistry using default registry
+22 silly mapToRegistry registry https://registry.npmjs.org/
+23 silly mapToRegistry uri https://registry.npmjs.org/ecto-signals
+24 verbose publish registryBase https://registry.npmjs.org/
+25 silly publish uploading /Users/timfarland/.npm/ecto-signals/0.0.1/package.tgz
+26 verbose request uri https://registry.npmjs.org/ecto-signals
+27 verbose request sending authorization for write operation
+28 info attempt registry request try #1 at 10:33:58 AM
+29 verbose request using bearer token for auth
+30 verbose request id 256145a580c81cf6
+31 http request PUT https://registry.npmjs.org/ecto-signals
+32 http 403 https://registry.npmjs.org/ecto-signals
+33 verbose headers { 'content-type': 'application/json',
+33 verbose headers   'cache-control': 'max-age=300',
+33 verbose headers   'content-length': '106',
+33 verbose headers   'accept-ranges': 'bytes',
+33 verbose headers   date: 'Wed, 01 Jun 2016 22:33:59 GMT',
+33 verbose headers   via: '1.1 varnish',
+33 verbose headers   connection: 'keep-alive',
+33 verbose headers   'x-served-by': 'cache-akl6421-AKL',
+33 verbose headers   'x-cache': 'MISS',
+33 verbose headers   'x-cache-hits': '0',
+33 verbose headers   'x-timer': 'S1464820439.011766,VS0,VE619',
+33 verbose headers   vary: 'Accept-Encoding' }
+34 verbose request invalidating /Users/timfarland/.npm/registry.npmjs.org/ecto-signals on PUT
+35 error publish Failed PUT 403
+36 verbose stack Error: you do not have permission to publish "ecto-signals". Are you logged in as the correct user? : ecto-signals
+36 verbose stack     at makeError (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:264:12)
+36 verbose stack     at CachingRegistryClient.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:252:14)
+36 verbose stack     at Request._callback (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:172:14)
+36 verbose stack     at Request.self.callback (/usr/local/lib/node_modules/npm/node_modules/request/request.js:198:22)
+36 verbose stack     at emitTwo (events.js:88:13)
+36 verbose stack     at Request.emit (events.js:173:7)
+36 verbose stack     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1082:10)
+36 verbose stack     at emitOne (events.js:83:20)
+36 verbose stack     at Request.emit (events.js:170:7)
+36 verbose stack     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1009:12)
+37 verbose statusCode 403
+38 verbose pkgid ecto-signals
+39 verbose cwd /Users/timfarland/dev/ecto-signals
+40 error Darwin 14.5.0
+41 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "publish"
+42 error node v5.2.0
+43 error npm  v3.3.12
+44 error code E403
+45 error you do not have permission to publish "ecto-signals". Are you logged in as the correct user? : ecto-signals
+46 error If you need help, you may report this error at:
+46 error     <https://github.com/npm/npm/issues>
+47 verbose exit [ 1, true ]

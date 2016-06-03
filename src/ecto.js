@@ -165,6 +165,7 @@ function filter (f, s) {
 // Signal A -> Signal A
 function dropRepeats (s) {
 	var s2 = create()
+	if (s.value) send(s2, s.value)
 	listen(s, function (v) {
 		if (v !== s2.value) send(s2, v)
 	})
@@ -195,6 +196,7 @@ function merge () {
 // Signal A -> Signal B -> Signal A
 function sampleOn (s, s2) {
 	var s3 = create()
+	if (s.value) send(s3, s.value)
 	listen(s2, function () {
 		send(s3, s.value)
 	})
