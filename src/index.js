@@ -13,7 +13,7 @@
 		root[name] = obj
 	}
 
-})(this, 'ectoSignals', function () {
+})(this, 'acto', function () {
 
 // --------------------
 
