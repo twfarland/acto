@@ -1,4 +1,4 @@
-# ecto-signals
+# acto
 A signals library for functional reactive programming.
 Author: [Tim Farland](https://github.com/twfarland)
 
@@ -10,7 +10,7 @@ Author: [Tim Farland](https://github.com/twfarland)
 
 ## Install
 
-	npm install --save ecto-signals
+	npm install --save acto
 
 ## Test
 
@@ -18,13 +18,13 @@ Author: [Tim Farland](https://github.com/twfarland)
 
 ## Importing
 
-	import ecto from 'ecto-signals'	// es6
+	import acto from 'acto'	// es6
 
-	var ecto = require('ecto-signals') // 
+	var acto = require('acto') // common
 
-	define(['ectoSignals'] , function (ecto) { }) // amd
+	define(['acto'] , function (acto) { }) // amd
 
-	window.ectoSignals // no module system, just including a script tag
+	window.acto // no module system, just including a script tag
 
 ## Api
 
