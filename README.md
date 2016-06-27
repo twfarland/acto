@@ -77,6 +77,7 @@ Low-level signal creation.
 ```javascript
 // Signal A
 const rawSignal = create()
+const rawSignalWithInitialValue = create(123)
 ```
 ### Interacting with signals
 
