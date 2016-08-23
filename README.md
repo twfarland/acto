@@ -230,7 +230,6 @@ const signal = create()
 listen(signal, v => console.log(v))
 send(signal, 1) // 1
 send(signal, new Error("Disaster has struck")) // [Error: Disaster has struck]
-send(signal, 1) // (does nothing, as the signal has stopped)
 ```
 
 So your listeners need to be handle the case that the the type of any signal value may also be an `Error`.
@@ -245,4 +244,5 @@ send(source, 1) // 1
 send(source, 2) // [Error: I can't handle this]
 ```
 
+Errors do not stop signals.
 
