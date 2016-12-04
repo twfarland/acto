@@ -1,14 +1,19 @@
 {
   "name": "acto",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A signals library for functional reactive programming",
   "homepage": "http://github.com/twfarland/acto",
   "main": "src/index.js",
+  "typings": "src/index",
+  "files": [
+    "src/"
+  ],
   "repository": "https://github.com/twfarland/acto",
   "author": "Tim Farland <twfarland@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "promise": "^7.1.1"
+    "promise": "^7.1.1",
+    "@types/es6-promise": "0.0.32"
   },
   "scripts": {
     "test": "node ./test/test.js"

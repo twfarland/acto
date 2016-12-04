@@ -1,4 +1,4 @@
-var S = require("../src/ecto") 
+var S = require("../src/index").default 
 
 var assert = require('assert')
 var Promise = require('promise')

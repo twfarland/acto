@@ -1,0 +1,11 @@
+{
+    "version": "0.0.2",
+    "compilerOptions": {
+        "module": "commonjs",
+        "declaration": true,
+        "outDir": "lib/"
+    },
+    "files": [
+        "./src/index.ts"
+    ]
+}
