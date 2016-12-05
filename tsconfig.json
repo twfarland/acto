@@ -6,6 +6,7 @@
         "outDir": "lib/"
     },
     "files": [
-        "./src/index.ts"
+        "./src/index.ts",
+        "./test/test.ts"
     ]
 }

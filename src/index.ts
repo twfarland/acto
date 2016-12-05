@@ -2,34 +2,34 @@ import { Promise } from 'es6-promise'
 
 // -------------------- INTERFACES
 
-interface Signal<T> {
+export interface Signal<T> {
     listeners: Listener<T>[]
     active:    boolean
     value:     T | null
     stop?:     Function
 }
 
-interface Callback<T> {
+export interface Callback<T> {
     (T): any
 }
 
-interface Listener<T> {
+export interface Listener<T> {
     (T): any
 }
 
-interface Mapper<T> {
-    (...any): Signal<T>
+export interface Mapper<T> {
+    (...n: any[]): T
 }
 
-interface Filter<T> {
+export interface Filter<T> {
     (T): boolean
 }
 
-interface Folder<T,U> {
+export interface Folder<T,U> {
     (T,U): U
 }
 
-interface Lifter<T,U> {
+export interface Lifter<T,U> {
     (T): Signal<U>
 }
 
@@ -128,10 +128,11 @@ export function stop<T> (s: Signal<T>): Signal<T> {
 // -------------------- TRANSFORM
 
 export function map<T> (f: Mapper<T>, ...signals: Signal<any>[]): Signal<T> {
-    const s2   = <Signal<T>>create()
+    const s2 = <Signal<T>>create()
     signals.forEach(s3 => {
         listen(s3, () => {
-            send(s2, f.apply(null, signals.map(s => s.value)))
+            const values = signals.map(s => s.value)
+            send(s2, f.apply(null, values))
         })
     })
     return s2

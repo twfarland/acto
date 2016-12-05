@@ -11,11 +11,19 @@
   "repository": "https://github.com/twfarland/acto",
   "author": "Tim Farland <twfarland@gmail.com>",
   "license": "MIT",
-  "devDependencies": {
-    "promise": "^7.1.1",
+  "scripts": {
+    "test": "ts-node ./test/test.ts"
+  },
+  "dependencies": {
     "@types/es6-promise": "0.0.32"
   },
-  "scripts": {
-    "test": "node ./test/test.js"
+  "devDependencies": {
+    "@types/assert": "0.0.31",
+    "@types/es6-promise": "0.0.32",
+    "@types/jsdom": "^2.0.29",
+    "@types/node": "0.0.2",
+    "assert": "^1.4.1",
+    "es6-promise": "^4.0.5",
+    "jsdom": "^9.8.3"
   }
 }
