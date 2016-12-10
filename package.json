@@ -4,7 +4,7 @@
   "description": "A signals library for functional reactive programming",
   "homepage": "http://github.com/twfarland/acto",
   "main": "src/index.js",
-  "typings": "src/index",
+  "types": "src/index.ts",
   "files": [
     "src/"
   ],

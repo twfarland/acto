@@ -10,11 +10,11 @@ export interface Signal<T> {
 }
 
 export interface Callback<T> {
-    (T): any
+    (f: (value: T) => void): void
 }
 
 export interface Listener<T> {
-    (T): any
+    (value: T): any
 }
 
 export interface Mapper<T> {
@@ -22,15 +22,15 @@ export interface Mapper<T> {
 }
 
 export interface Filter<T> {
-    (T): boolean
+    (value: T): boolean
 }
 
 export interface Folder<T,U> {
-    (T,U): U
+    (value: T, accumulated: U): U
 }
 
 export interface Lifter<T,U> {
-    (T): Signal<U>
+    (value: T): Signal<U>
 }
 
 // -------------------- CREATE
