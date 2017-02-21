@@ -24,6 +24,7 @@
     "@types/node": "0.0.2",
     "assert": "^1.4.1",
     "es6-promise": "^4.0.5",
-    "jsdom": "^9.8.3"
+    "jsdom": "^9.8.3",
+    "ts-loader": "^2.0.0"
   }
 }
